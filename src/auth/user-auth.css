@@ -1,0 +1,19 @@
+.user-auth {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-area {
+  margin: auto;
+  justify-content: center;
+  /* border: 1px white solid; */
+  /* border-radius: 0.25rem; */
+  padding: 20px;
+}
+
+.gh-button {
+  width: 100%;
+}
