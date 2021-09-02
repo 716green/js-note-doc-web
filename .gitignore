@@ -28,3 +28,6 @@ yarn-error.log*
 firestore.rules
 firebase.json
 firestore.indexes.json
+
+# Env
+.env

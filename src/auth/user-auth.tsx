@@ -12,6 +12,7 @@ const provider = new GithubAuthProvider();
 const UserAuth: React.FC = () => {
   const [token, setToken] = useState<any>('');
   const [user, setUser] = useState<any>('');
+  const loginButtonText = 'Login';
 
   const auth = getAuth();
   const signinHandler = () => {
@@ -23,6 +24,7 @@ const UserAuth: React.FC = () => {
 
         // The signed-in user info.
         setUser(result.user);
+        console.log(token, user);
         localStorage.setItem('user', JSON.stringify(result.user));
       })
       .catch((error) => {
@@ -39,18 +41,10 @@ const UserAuth: React.FC = () => {
   };
 
   return (
-    <div className="user-auth">
-      <section className="login-area">
-        <h2 className="title">Login with GitHub</h2>
-        <div className="actions">
-          <button
-            className="gh-button button is-primary is-rounded"
-            onClick={signinHandler}>
-            <i className="fab fa-github"></i>
-          </button>
-        </div>
-      </section>
-    </div>
+    <button className="gh-button button is-primary" onClick={signinHandler}>
+      <i className="fab fa-github"></i>
+      <strong style={{ marginLeft: '10px' }}>{loginButtonText}</strong>
+    </button>
   );
 };
 
