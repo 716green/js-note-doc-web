@@ -21,7 +21,5 @@ store.dispatch({
   },
 });
 
-// const id = store.getState().cells.order[0] || -1;
-
-const storeState = store.getState();
-console.log({ storeState });
+// export const storeState = store.getState();
+// console.log({ storeState });

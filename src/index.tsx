@@ -1,11 +1,11 @@
 import ReactDOM from 'react-dom';
 import App from './App';
-import { firebaseConfig } from './auth/firebase';
-import { initializeApp } from 'firebase/app';
-// import { FirebaseApp, initializeApp } from 'firebase/app';
 
-// const app: FirebaseApp =
-initializeApp(firebaseConfig);
-// console.log(app);
+import { UserAuthContextProvider } from './context/user-state';
 
-ReactDOM.render(<App />, document.querySelector('#root'));
+ReactDOM.render(
+  <UserAuthContextProvider>
+    <App />
+  </UserAuthContextProvider>,
+  document.querySelector('#root')
+);

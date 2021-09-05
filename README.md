@@ -1,5 +1,13 @@
 # TS Notebook
 
+.......##..######.....##....##..#######..########.########.########...#######...######.
+.......##.##....##....###...##.##.....##....##....##.......##.....##.##.....##.##....##
+.......##.##..........####..##.##.....##....##....##.......##.....##.##.....##.##......
+.......##..######.....##.##.##.##.....##....##....######...##.....##.##.....##.##......
+.##....##.......##....##..####.##.....##....##....##.......##.....##.##.....##.##......
+.##....##.##....##....##...###.##.....##....##....##.......##.....##.##.....##.##....##
+..######...######.....##....##..#######.....##....########.########...#######...######.
+
 > A TypeScript-based documentation notebook and Web-IDE
 
 You can reference variables from between blocks within a notebook
@@ -7,6 +15,21 @@ You can reference variables from between blocks within a notebook
 ---
 
 # Todo
+
+### High Priority
+
+> Finish migrating Redux state to the Context API
+
+- Copy `context/user-state.tsx` format for cells
+  - Consider using a global state for the user and the user data and the cells data
+- Add firebase to cell state
+  - The bundler can probably continue to use Redux for now
+
+Add support for named workbooks
+
+> Currently the workbooks are limited to 1 per user. Firestore is setup to allow for more.
+
+### Low Priority
 
 - Look into adding HTML into the Markdown (Try it, it does strange things)
 - Add the following code as either a default, or a 'quick add' option:
@@ -135,13 +158,7 @@ __)__)  | \|(_)|_(-|__/(_)(_
   #####   #####     #     #  ####    #   ###### ######   ####   ####
 
 
-.......##..######.....##....##..#######..########.########.########...#######...######.
-.......##.##....##....###...##.##.....##....##....##.......##.....##.##.....##.##....##
-.......##.##..........####..##.##.....##....##....##.......##.....##.##.....##.##......
-.......##..######.....##.##.##.##.....##....##....######...##.....##.##.....##.##......
-.##....##.......##....##..####.##.....##....##....##.......##.....##.##.....##.##......
-.##....##.##....##....##...###.##.....##....##....##.......##.....##.##.....##.##....##
-..######...######.....##....##..#######.....##....########.########...#######...######.
+
 
 ```
 

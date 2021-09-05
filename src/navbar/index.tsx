@@ -1,12 +1,44 @@
-import React from 'react';
-import UserAuth from '../auth/user-auth';
+import React, { useEffect, useState, useContext } from 'react';
+import UserAuthContext, {
+  ICurrentUser,
+  initialUserState,
+} from '../context/user-state';
+import 'bulmaswatch/superhero/bulmaswatch.min.css';
 
 const Navbar: React.FC = () => {
+  const [loginButtonText, setLoginButtonText] = useState<string>('Log In');
+  const [user, setUser] = useState<ICurrentUser>(initialUserState);
+  const userAuthCtx = useContext(UserAuthContext);
+
+  useEffect(() => {
+    setUser(userAuthCtx.user);
+
+    const userState = {
+      uid: user?.uid,
+      email: user?.email,
+      displayName: user?.displayName,
+      photoURL: user?.photoURL,
+    };
+    setUser(userState);
+
+    setLoginButtonText(userAuthCtx.userIsLoggedIn ? 'Log Out' : 'Log In');
+  }, [userAuthCtx]);
+
+  const userAuthHandler = () => {
+    if (!userAuthCtx.userIsLoggedIn) {
+      userAuthCtx.signUserIn();
+      console.log(`${user.email} is signed in`);
+    } else {
+      userAuthCtx.signUserOut();
+      console.log('User is signed out');
+    }
+  };
+
   return (
     <nav className="navbar" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
         <a href="/" className="navbar-item">
-          <h1 className="title">JS NoteDoc</h1>
+          <h1 className="title">JS NoteDoc {userAuthCtx.user.email}</h1>
         </a>
 
         <a
@@ -58,7 +90,14 @@ const Navbar: React.FC = () => {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <UserAuth />
+              <button
+                className="gh-button button is-primary"
+                onClick={userAuthHandler}>
+                <i className="fab fa-github" />
+                <strong style={{ marginLeft: '10px' }}>
+                  {loginButtonText}
+                </strong>
+              </button>
             </div>
           </div>
         </div>

@@ -11,6 +11,13 @@ import {
 import { CellTypes } from '../cell';
 import bundle from '../../bundler';
 
+export interface UserData {
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+}
+
 export const updateCell = (id: string, content: string): UpdateCellAction => {
   return {
     type: ActionType.UPDATE_CELL,
