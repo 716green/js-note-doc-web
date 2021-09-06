@@ -3,6 +3,7 @@
 import { GithubAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 import { createContext, useState } from 'react';
 import { userAuth } from '../firebase';
+import { useLocalForage } from '../hooks/use-local-forage';
 
 export interface ICurrentUser {
   uid: string;
@@ -30,6 +31,7 @@ const UserAuthContext = createContext({
   // methods defined below for better auto-complete
   signUserIn: (): void => {},
   signUserOut: (): void => {},
+  tryCachedUser: (): void => {},
 });
 
 // This is a regular React component that creates a listener on the data within the context object
@@ -41,9 +43,32 @@ export function UserAuthContextProvider(props: IUserAuthContextProviderProps) {
     useState<ICurrentUser>(initialUserState);
 
   // Methods that will be able to modify context values to force updates
+  const tryCachedUser = async () => {
+    const { error, value } = await useLocalForage({
+      type: 'get',
+      itemName: 'user',
+      storeName: 'user',
+    });
+    const fullUser = JSON.parse(value);
+    if (fullUser?.uid) {
+      setCurrentUser({
+        uid: fullUser.uid,
+        email: fullUser.email,
+        displayName: fullUser.displayName,
+        photoURL: fullUser.photoURL,
+      });
+    }
+  };
+
   const signUserIn = () => {
     signInWithPopup(userAuth, provider)
-      .then(({ user: { uid, email, displayName, photoURL } }) => {
+      .then(({ user, user: { uid, email, displayName, photoURL } }) => {
+        useLocalForage({
+          type: 'set',
+          itemName: 'user',
+          storeName: 'user',
+          itemValue: user,
+        });
         console.log({ uid, email, displayName, photoURL });
 
         // Set State
@@ -83,8 +108,9 @@ export function UserAuthContextProvider(props: IUserAuthContextProviderProps) {
     user: currentUser,
     userIsLoggedIn: currentUser.uid != '',
     // Method pointers, also match these in the original createContext object
-    signUserIn: signUserIn,
-    signUserOut: signUserOut,
+    signUserIn,
+    signUserOut,
+    tryCachedUser,
   };
 
   return (

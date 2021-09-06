@@ -4,6 +4,7 @@ import UserAuthContext, {
   initialUserState,
 } from '../context/user-state';
 import 'bulmaswatch/superhero/bulmaswatch.min.css';
+import { useLocalForage } from '../hooks/use-local-forage';
 
 const Navbar: React.FC = () => {
   const [loginButtonText, setLoginButtonText] = useState<string>('Log In');
@@ -22,6 +23,9 @@ const Navbar: React.FC = () => {
     setUser(userState);
 
     setLoginButtonText(userAuthCtx.userIsLoggedIn ? 'Log Out' : 'Log In');
+    if (!userAuthCtx.userIsLoggedIn) {
+      userAuthCtx.tryCachedUser();
+    }
   }, [userAuthCtx]);
 
   const userAuthHandler = () => {
@@ -29,6 +33,11 @@ const Navbar: React.FC = () => {
       userAuthCtx.signUserIn();
       console.log(`${user.email} is signed in`);
     } else {
+      useLocalForage({
+        type: 'delete',
+        storeName: 'user',
+        itemName: 'user',
+      });
       userAuthCtx.signUserOut();
       console.log('User is signed out');
     }
